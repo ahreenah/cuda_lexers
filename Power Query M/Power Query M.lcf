@@ -100,7 +100,7 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'Operator'
       StyleName = 'Operator'
       TokenType = 10
-      Expression = '[\=\,\.\;/\+\-\*\<\>\!\|\(\)\{\}]'
+      Expression = '[\=\,\.\;/\+\-\*\<\>\!\|\(\)\{\}\?\[\]]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -128,6 +128,53 @@ object SyntAnal29: TLibSyntAnalyzer
       ColumnTo = 0
     end>
   BlockRules = <
+    item
+      DisplayName = 'SquareBraceOpen'
+      ConditionList = <
+        item
+        end>
+      BlockEnd = 'SquareBraceClose'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'SquareBraceClose'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ']')
+        end>
+      BlockEnd = 'SquareBraceOpen'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'CurlyBraceOpen'
+      StyleName = 'Number'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '{')
+        end>
+      BlockEnd = 'CurlyBraceClose'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'CurlyBraceClose'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '}')
+        end>
+      BlockEnd = 'CurlyBraceOpen'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
     item
       DisplayName = 'Builtin Function'
       StyleName = 'Builtin'

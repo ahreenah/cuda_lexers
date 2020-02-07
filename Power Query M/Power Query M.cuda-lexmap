@@ -1,5 +1,18 @@
 [comments]
-str1=
-str2=
-styles_cmt=
-styles_str=
+str1=/*
+str2=*/
+styles_cmt=Comment
+styles_str=String
+
+[ref]
+0=Power Query M
+
+[map]
+Id=Id
+Comment=Comment
+Keyword=Keyword
+Operator=Operator
+String=String
+database=database
+Number=Number
+Builtin=Builtin
