@@ -1,0 +1,397 @@
+object SyntAnal29: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Id'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGray
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Keyword'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Operator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 5796629
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      FormatFlags = [ffItalic, ffUnderline, ffStrikeOut, ffReadOnly, ffHidden, ffFontName, ffFontSize, ffFontCharset, ffVertAlign]
+    end
+    item
+      DisplayName = 'String'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'String 2'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'datatype'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 376632
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = RUSSIAN_CHARSET
+      Font.Color = clNavy
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Builtin'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Hex'
+      StyleName = 'Number'
+      Expression = '0x[abcdef0123456789]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Id'
+      StyleName = 'Id'
+      TokenType = 2
+      Expression = '[a-zA-Z_]\w*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'comment 1'
+      StyleName = 'Comment'
+      Expression = '//.*'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Operator'
+      StyleName = 'Operator'
+      TokenType = 10
+      Expression = '[\=\,\.\;/\+\-\*\<\>\!\|\(\)\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'String'
+      StyleName = 'String'
+      Expression = '(")(\\"|.)*?(\1|$)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Float'
+      StyleName = 'Number'
+      TokenType = 6
+      Expression = '(\d+ \.)? \d+ e [\+\-]? \d+ |'#13#10'\d+ \. \d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Integer'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\d+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = 'Builtin Function'
+      StyleName = 'Builtin'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'Access'
+            'Action'
+            'ActiveDirectory'
+            'AdoDotNet'
+            'AnalysisServices'
+            'AzureStorage'
+            'Binary'
+            'BinaryFormat'
+            'Byte'
+            'Character'
+            'Combiner'
+            'Comparer'
+            'Crypto'
+            'Csv'
+            'Cube'
+            'Currency'
+            'Date'
+            'DateTime'
+            'DateTimeZone'
+            'DB2'
+            'Decimal'
+            'Delta'
+            'Diagnostics'
+            'DirectQueryCapabilities'
+            'Double'
+            'Duration'
+            'Embedded'
+            'Error'
+            'Excel'
+            'Exchange'
+            'Expression'
+            'Extension'
+            'Facebook'
+            'File'
+            'Folder'
+            'Function'
+            'Hdfs'
+            'HdInsight'
+            'Informix'
+            'Int16'
+            'Int32'
+            'Int64'
+            'Int8'
+            'Json'
+            'Lines'
+            'List'
+            'Logical'
+            'Marketplace'
+            'MQ'
+            'MySQL'
+            'Number'
+            'OData'
+            'Odbc'
+            'OleDb'
+            'Oracle'
+            'Percentage'
+            'PostgreSQL'
+            'RData'
+            'Record'
+            'Replacer'
+            'Resource'
+            'RowExpression'
+            'Salesforce'
+            'SapBusinessWarehouse'
+            'SapHana'
+            'SharePoint'
+            'Single'
+            'Soda'
+            'Splitter'
+            'Sql'
+            'SqlExpression'
+            'Sybase'
+            'Table'
+            'TableAction'
+            'Tables'
+            'Teradata'
+            'Text'
+            'Time'
+            'Type'
+            'Uri'
+            'Value'
+            'ValueAction'
+            'Variable'
+            'Web'
+            'WebAction'
+            'Xml')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'keyword'
+      StyleName = 'Keyword'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'and'
+            'as'
+            'each'
+            'else'
+            'error'
+            'false'
+            'if'
+            'in'
+            'is'
+            'let'
+            'meta'
+            'not'
+            'null'
+            'or'
+            'otherwise'
+            'section'
+            'shared'
+            'then'
+            'true'
+            'try'
+            'type')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Datatype'
+      StyleName = 'datatype'
+      BlockType = btTagDetect
+      ConditionList = <
+        item
+          TagList.Strings = (
+            'function'
+            'number'
+            'table'
+            'text')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'RuleBegin'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '[')
+          TokenTypes = 1024
+        end>
+      BlockEnd = 'RuleEnd'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'RuleEnd'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ']')
+          TokenTypes = 5120
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'RuleFuncBegin'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '(')
+          TokenTypes = 1024
+        end
+        item
+          TagList.Strings = (
+            'function')
+          TokenTypes = 4
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'RuleFuncEnd'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            ')')
+          TokenTypes = 1024
+        end>
+      BlockEnd = 'RuleFuncBegin'
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = (
+    'let'
+    '      Area?alculation = (x, y) => '
+    '            let '
+    '                  Area = x * y, '
+    '                  DoubleArea = Area * 2 '
+    '            in '
+    '            DoubleArea '
+    'in '
+    ''
+    'let k = 0xABC23'
+    ''
+    '//dsfdg \'
+    'AreaCalculation'
+    ''
+    'let Orders = Table.FromRecords({  '
+    
+      '    [OrderID = 1, CustomerID = 1, Item = "fishing rod", Price = ' +
+      '100.0],  '
+    
+      '    [OrderID = 2, CustomerID = 1, Item = "1 lb. worms", Price = ' +
+      '5.0],  '
+    
+      '    [OrderID = 3, CustomerID = 2, Item = "fishing net", Price = ' +
+      '25.0]}),  '
+    
+      '    #"Capitalized Each Word" = Table.TransformColumns(Orders, {"' +
+      'Item", Text.Proper})  '
+    'in  '
+    '    #"Capitalized Each Word"  '
+    ''
+    'let'
+    '   DayPassedInYear = (x) => '
+    '       let'
+    
+      '          MonthList=List.Numbers(1,Date.Month(DateTime.FromText(' +
+      'x))-1),'
+    '          Year=Date.Year(DateTime.FromText(x)),'
+    
+      '          DaysInMonthList=List.Transform(MonthList,each Date.Day' +
+      'sInMonth(DateTime.FromText(Text.From(Year)&"-"&Text.From(_)&"-01' +
+      '")))'
+    '       in '
+    
+      '          Date.Day(DateTime.FromText(x))+List.Sum(DaysInMonthLis' +
+      't)')
+  TokenTypeNames.Strings = (
+    'Unknown'
+    'Comment'
+    'Identifier'
+    'String'
+    'Number'
+    'Operator'
+    'Number')
+  Extentions = 'pq PQ m M pqm PQM'
+  LexerName = 'Power Query M'
+  Notes.Strings = (
+    
+      'Lexer by Alexander Medvedev(Medvosa), https://github.com/medvosa' +
+      '/cuda_lexers')
+  LineComment = '//'
+  AlwaysSyncBlockAnal = True
+  Charset = DEFAULT_CHARSET
+end
