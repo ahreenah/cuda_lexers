@@ -71,19 +71,36 @@ object SyntAnal29: TLibSyntAnalyzer
       Font.Height = -13
       Font.Name = 'Courier New'
       Font.Style = []
+    end
+    item
+      DisplayName = 'Regex'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'IdHash'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
     end>
   TokenRules = <
     item
-      DisplayName = 'IdFunc'
-      TokenType = 7
-      Expression = '\w+\.\w+'
+      DisplayName = 'Comment 1'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '(?s)/\*.*?(\*/|\Z)'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
-      DisplayName = 'HashString'
-      StyleName = 'String'
-      Expression = '\#(\w+)'
+      DisplayName = 'IdFunc'
+      TokenType = 7
+      Expression = '\w+\.\w+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -105,6 +122,7 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'comment 1'
       StyleName = 'Comment'
+      TokenType = 1
       Expression = '//.*'
       ColumnFrom = 0
       ColumnTo = 0
@@ -112,14 +130,15 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Operator'
       StyleName = 'Operator'
-      TokenType = 10
-      Expression = '[=,\.;/+\-\*<>!|\(\)\{\}?\\\[\]]'
+      TokenType = 5
+      Expression = '[=,\.;/\+\-\*<>!\|\(\)\{\}?\\\[\]\#&]'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'String'
       StyleName = 'String'
+      TokenType = 3
       Expression = '(")(\\"|.)*?(\1|$)'
       ColumnFrom = 0
       ColumnTo = 0
@@ -135,14 +154,15 @@ object SyntAnal29: TLibSyntAnalyzer
     item
       DisplayName = 'Integer'
       StyleName = 'Number'
-      TokenType = 5
+      TokenType = 4
       Expression = '\d+'
       ColumnFrom = 0
       ColumnTo = 0
     end
     item
       DisplayName = 'Regex'
-      StyleName = 'String'
+      StyleName = 'IdHash'
+      TokenType = 8
       Expression = '\#\w+'
       ColumnFrom = 0
       ColumnTo = 0
@@ -164,7 +184,8 @@ object SyntAnal29: TLibSyntAnalyzer
             'duration'
             'false'
             'function'
-            'list|logical'
+            'list'
+            'logical'
             'none'
             'null'
             'nullable'
@@ -184,10 +205,14 @@ object SyntAnal29: TLibSyntAnalyzer
       DisplayName = 'SquareBraceOpen'
       ConditionList = <
         item
+          TagList.Strings = (
+            '[')
+          TokenTypes = 32
         end>
       BlockEnd = 'SquareBraceClose'
       DisplayInTree = False
       HighlightPos = cpAny
+      CollapseFmt = '[...]'
       IgnoreAsParent = False
     end
     item
@@ -197,6 +222,7 @@ object SyntAnal29: TLibSyntAnalyzer
         item
           TagList.Strings = (
             ']')
+          TokenTypes = 32
         end>
       BlockEnd = 'SquareBraceOpen'
       HighlightPos = cpAny
@@ -209,10 +235,12 @@ object SyntAnal29: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '{')
+          TokenTypes = 32
         end>
       BlockEnd = 'CurlyBraceClose'
       DisplayInTree = False
       HighlightPos = cpAny
+      CollapseFmt = '{...}'
       IgnoreAsParent = False
     end
     item
@@ -222,6 +250,7 @@ object SyntAnal29: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '}')
+          TokenTypes = 32
         end>
       BlockEnd = 'CurlyBraceOpen'
       HighlightPos = cpAny
@@ -969,36 +998,10 @@ object SyntAnal29: TLibSyntAnalyzer
       ConditionList = <
         item
           TagList.Strings = (
-            'function'
             'number'
             'table'
             'text')
           TokenTypes = 4
-        end>
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'RuleBegin'
-      ConditionList = <
-        item
-          TagList.Strings = (
-            '[')
-          TokenTypes = 1024
-        end>
-      BlockEnd = 'RuleEnd'
-      DisplayInTree = False
-      HighlightPos = cpAny
-      IgnoreAsParent = False
-    end
-    item
-      DisplayName = 'RuleEnd'
-      BlockType = btRangeEnd
-      ConditionList = <
-        item
-          TagList.Strings = (
-            ']')
-          TokenTypes = 5120
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
@@ -1031,19 +1034,59 @@ object SyntAnal29: TLibSyntAnalyzer
       BlockEnd = 'RuleFuncBegin'
       HighlightPos = cpAny
       IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Block comment'
+      Enabled = False
+      BlockName = 'Block comment'
+      NotParent = True
+      AlwaysEnabled = True
+      ConditionList = <
+        item
+          TokenTypes = 2
+        end>
+      DisplayInTree = False
+      HighlightPos = cpBound
+      CollapseFmt = '/* ... */'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = 'Block comment end'
+      Enabled = False
+      BlockName = 'Block comment'
+      StrictParent = True
+      AlwaysEnabled = True
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          CondType = tcNotEqual
+          TokenTypes = 2
+        end>
+      BlockOffset = 1
+      HighlightPos = cpBound
+      IgnoreAsParent = False
     end>
   CodeTemplates = <>
   SubAnalyzers = <>
   SampleText.Strings = (
+    ''
+    '/*'
+    'Multitline comment'
+    '*/'
+    '//Singleline comment'
+    ''
     'let'
     '      AreaCalculation = (x, y) => '
     '            let '
     '                  Area = x * y, '
     '                  DoubleArea = Area * 2 '
     '            in '
-    '            DoubleArea '
+    '            DoubleArea       '
+    '            '
     'in '
-    ''
+    
+      '                                                                ' +
+      '             '
     'let k = 0xABC23                          '
     ''
     '//dsfdg \'
@@ -1088,8 +1131,9 @@ object SyntAnal29: TLibSyntAnalyzer
     'Number'
     'Operator'
     'Number'
-    'IdFunc')
-  Extentions = 'pq PQ m M pqm PQM'
+    'IdFunc'
+    'Regex')
+  Extentions = 'pq m pqm'
   LexerName = 'Power Query M'
   Notes.Strings = (
     

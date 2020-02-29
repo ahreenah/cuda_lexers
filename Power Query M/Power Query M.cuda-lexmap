@@ -1,8 +1,8 @@
 [comments]
 str1=/*
 str2=*/
-styles_cmt=
-styles_str=
+styles_cmt=Comment
+styles_str=String
 [ref]
 0=Power Query M
 [map]
@@ -14,3 +14,6 @@ String=String
 database=database
 Number=Number
 Builtin=Builtin
+IdFunc=IdFunc
+Regex=Regex
+IdHash=IdHash
