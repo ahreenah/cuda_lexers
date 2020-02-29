@@ -3,8 +3,6 @@ str1=/*
 str2=*/
 styles_cmt=Comment
 styles_str=String
-[ref]
-0=Power Query M
 [map]
 Id=Id
 Comment=Comment
